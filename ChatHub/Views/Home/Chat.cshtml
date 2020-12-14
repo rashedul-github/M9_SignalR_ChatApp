@@ -1,0 +1,96 @@
+﻿
+@{
+    ViewBag.Title = "Chat";
+}
+@section styles{
+    <style>
+        body {
+            background-image: url('../../Images/Repeating-Triangles.svg');
+            margin: 0;
+        }
+
+        #mt {
+            margin-top: 60px;
+        }
+    </style>
+}
+
+
+<div class="card z-depth-2" id="mt">
+    <div class="card-content">
+
+        <div class="row" style="padding-top:50px;">
+            <div class="col s4">
+                <h5><i class="material-icons left small">people</i>Users</h5>
+                <ul id="users"></ul>
+            </div>
+            <div class="col s8">
+                <input type="text" class="input-field col s6" id="t" />
+                <div class="col s4">
+                    <button class="btn waves-effect waves-light small" type="submit" name="action" id="b">
+                        Send
+                        <i class="material-icons right">send</i>
+                    </button>
+                    <button class="btn waves-effect waves-light small" type="submit" name="action" id="b1">
+                        <i class="material-icons">photo</i>
+                    </button>
+                </div>
+                <input type="file" id="f" style="display:none" accept=".jpg,.png,.gif" />
+                <div class="row">
+                    <div class="col s12">
+                        <h5><i class="material-icons left small">message</i> Messages</h5>
+                        <div>
+                            <ul id="msgs"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+
+    <script src="~/Scripts/jquery.signalR-2.4.1.js"></script>
+    <script src="~/signalr/hubs"></script>
+    <script>
+        var name;
+        var proxy = $.connection.chatHubs;
+        proxy.client.updateList = (users) => {
+            $("#users").empty();
+            $.each(users, (i, v) => {
+                $("#users").append(`<li>${v}</li>`)
+            })
+        };
+        proxy.client.message = (s, m) => {
+            $("#msgs").append(`<li>${s}: ${m}</li>`)
+        }
+        $.connection.hub.start()
+            .done(() => {
+                name = prompt("Your display name?");
+                proxy.server.addMe(name);
+                $("#b").click(() => {
+                    proxy.server.send(name, $("#t").val());
+                });
+                $("#b1").click(() => {
+                    $("#f").click();
+                });
+                $("#f").on('change', function (ev) {
+                    var file = document.getElementById("f").files[0];
+                    //console.log(file.name);
+                    //console.log(file.type);
+                    var reader = new FileReader();
+                    reader.onloadend = function () {
+                        var data = { filename: file.name, image: reader.result };
+                        //console.log(data);
+                        proxy.server.uploadImage(name, data);
+                    }
+                    reader.readAsDataURL(file);
+                })
+            })
+            .fail(err => {
+                console.log(err);
+            });
+    </script>
+}

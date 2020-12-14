@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.1267
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatPersistent", "ChatPersistent\ChatPersistent.csproj", "{387D7C14-10D3-4049-9FD1-2EEADC65EB82}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatHub", "ChatHub\ChatHub.csproj", "{D1A10F83-3405-4FE3-B044-0EB89B615D26}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{387D7C14-10D3-4049-9FD1-2EEADC65EB82}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{387D7C14-10D3-4049-9FD1-2EEADC65EB82}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{387D7C14-10D3-4049-9FD1-2EEADC65EB82}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{387D7C14-10D3-4049-9FD1-2EEADC65EB82}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D1A10F83-3405-4FE3-B044-0EB89B615D26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1A10F83-3405-4FE3-B044-0EB89B615D26}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1A10F83-3405-4FE3-B044-0EB89B615D26}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1A10F83-3405-4FE3-B044-0EB89B615D26}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {97EB3A69-06D9-420B-B9AB-2DEEBCFF603D}
+	EndGlobalSection
+EndGlobal

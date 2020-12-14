@@ -1,0 +1,89 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/mat-css/materialize.css" rel="stylesheet" />
+    <script src="~/Scripts/umd/popper.js"></script>
+        <style>
+            .nav-container {
+                padding-left: 15px;
+                padding-right: 15px;
+            }
+
+            .top-container {
+                padding-left: 25px;
+                padding-right: 25px;
+            }
+            .circle-profile {
+                height: 40px;
+                width: 40px;
+                border-radius: 40px;
+                margin: 8px 4px 4px 4px;
+                background-color: #ffffff;
+                /*border: 1px solid #eeeeee;*/
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                cursor: pointer;
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+                transition: 1s ease-out;
+            }
+        </style>
+    @RenderSection("styles", false)
+</head>
+<body>
+    <ul id='dropdown1' class='dropdown-content'>
+        @if (Request.IsAuthenticated)
+        {
+            <li>@Html.ActionLink("Logout", "Logout", "Accounts", new { }, new { @class = "" })</li>
+        }
+        else
+        {
+            <li>@Html.ActionLink("Login", "Login", "Accounts", new { }, new { @class = "" })</li>
+            <li>@Html.ActionLink("Register", "Register", "Accounts", new { }, new { @class = "" })</li>
+        }
+    </ul>
+    <nav>
+        <div class="nav-wrapper nav-container green darken-4">
+            <a href="#" data-target="slide-out" class="sidenav-trigger show-on-medium-and-up"><i class="material-icons">menu</i></a>
+            <a href="#" class="brand-logo"><img src="~/Images/chat.svg" width="30" /> Chat App</a>
+            <ul id="nav-mobile" class="right show-on-medium-and-down">
+                <li><a href="@Url.Action("Index","Home")"><i class="material-icons left">home</i>Home</a></li>
+                <li><a href="#!" class='dropdown-trigger' data-target='dropdown1'><i class="material-icons">more_vert</i></a></li>
+            </ul>
+        </div>
+    </nav>
+    <ul id="slide-out" class="sidenav">
+        <li class="sidenav-header green darken-4" style="height:60px;">
+            <div class="row">
+                <div style="display:flex; flex-direction:row;justify-content:flex-start; align-items:center">
+                    <img src="~/Images/rasel.jpg" class="circle-profile" alt=""><h6 style="color:white;">Rashedul Islam</h6>
+                </div>
+            </div>
+        </li>
+        <li>
+            <a href="@Url.Action("Index","Home")"><i class="material-icons left">home</i> Home</a>
+            <a href="@Url.Action("Chat","Home")"><i class="material-icons left">chat</i> Chat Here</a>
+            <a href="@Url.Action("GroupChat","Home")"><i class="material-icons left">group</i>Group Chat</a>
+        </li>
+    </ul>
+    <div class="top-container">
+
+        @RenderBody()
+    </div>
+
+
+    <script src="~/Scripts/jquery-3.5.1.js"></script>
+    <script src="~/Scripts/mat-js/materialize.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.sidenav').sidenav();
+            $('.dropdown-trigger').dropdown();
+        });
+    </script>
+    @RenderSection("scripts", false)
+</body>
+</html>

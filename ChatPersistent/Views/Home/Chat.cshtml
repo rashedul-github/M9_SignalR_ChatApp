@@ -1,0 +1,81 @@
+﻿
+@{
+    ViewBag.Title = "Chat";
+}
+@section styles{
+    <style>
+        body {
+            background-image: url('../../Images/Repeating-Triangles.svg');
+            margin: 0;
+        }
+        #mt{
+            margin-top:60px;
+        }
+    </style>
+}
+
+
+<div class="card z-depth-2" id="mt">
+    <div class="card-content">
+
+        <div class="row" style="padding-top:50px;">
+            <div class="col s4">
+                <h5><i class="material-icons left small">people</i>Users</h5>
+                <ul id="users"></ul>
+            </div>
+            <div class="col s8">
+                <input type="text" class="input-field col s6" id="t" />
+                <div class="col s4">
+                    <button class="btn waves-effect waves-light small" type="submit" name="action" id="b">
+                        Send
+                        <i class="material-icons right">send</i>
+                    </button>
+                </div>
+                <div class="row">
+                    <div class="col s12">
+                        <h5><i class="material-icons left small">message</i> Messages</h5>
+                        <div>
+                            <ul id="msgs"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+
+    <script src="~/Scripts/jquery.signalR-2.4.1.js"></script>
+    <script>
+        var name;
+        var connection = $.connection("/chat");
+        connection.received((data) => {
+            //console.log(data);
+            if (data.MessageType == "updateUsers") {
+                $("#users").empty();
+                $.each(data.List, (i, v) => {
+                    $("#users").append(`<li>${v}</li>`);
+                });
+            }
+            if (data.MessageType == "message") {
+                $("#msgs").append(`<li>${data.From}: ${data.Data}</li>`)
+            }
+
+        });
+        connection.start()
+            .done(() => {
+                //console.log("connected");
+                name = prompt("Your display name?");
+                connection.send(JSON.stringify({ MessageType: "addMe", From: name, Data: "" }));
+                $("#b").click(() => {
+                    connection.send(JSON.stringify({ MessageType: "message", From: name, Data: $("#t").val() }));
+                    $("#t").val("");
+                })
+            })
+            .fail(err => {
+                console.log(err);
+            });
+    </script>
+}

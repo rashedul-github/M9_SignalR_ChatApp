@@ -1,0 +1,60 @@
+﻿@model ChatPersistent.ViewModels.LoginVM
+@{
+    ViewBag.Title = "Login";
+}
+
+@section styles{
+    <style>
+        .cntr {
+            width: 60%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
+}
+
+
+<h2></h2>
+<div class="row cntr">
+    <div class="col s12">
+        <div class="card z-depth-3">
+            <div class="card-content">
+                <span class="card-title">Login Here</span>
+                <hr />
+                @using (Html.BeginForm())
+                {
+                    <div class="row">
+                        <div class="input-field col s12">
+                            @Html.TextBoxFor(x => x.Username, new { @class = "" })
+                            @Html.LabelFor(x => x.Username, new { @class = "" })
+                            @Html.ValidationMessageFor(x => x.Username, "", new { @class = "helper-text", style = "color:red;" })
+                        </div>
+                    </div>
+                    <div class="row">
+
+                        <div class="input-field col s12">
+                            @Html.PasswordFor(x => x.Password, new { @class = "" })
+                            @Html.LabelFor(x => x.Password, new { @class = "" })
+                            @Html.ValidationMessageFor(x => x.Password, "", new { @class = "helper-text", style = "color:red;" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="">
+                            <button type="submit" class="btn "> <i class="material-icons right">chevron_right</i> go</button>
+                        </div>
+                    </div>
+
+                }
+            </div>
+            <div class="card-action">
+                @Html.ActionLink("Register Here", "Register", "Accounts", new { }, new { @class = "" })
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+}

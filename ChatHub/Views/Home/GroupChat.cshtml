@@ -1,0 +1,124 @@
+﻿
+@{
+    ViewBag.Title = "GroupChat";
+}
+
+@section styles{
+    <style>
+        body {
+            background-image: url('../../Images/Repeating-Triangles.svg');
+            margin: 0;
+        }
+
+        #mt {
+            margin-top: 60px;
+        }
+        .p{
+            padding-top:3px;
+        }
+    </style>
+}
+
+
+<div class="card z-depth-3" id="mt">
+    <div class="card-content">
+        <div class="card-title"><i class="material-icons left p">perm_identity</i>: <span class="" id="n"></span></div>
+        <div class="row">
+            <div class="input-field">
+                <select class="browser-default col s3" id="groupList"></select>
+                <div class="col s2">
+                    <button type="button" id="j" class="btn"><i class="material-icons right">login</i> Join</button>
+                </div>
+            </div>
+
+            <div class="input-field">
+                <input class="col s5" placeholder="group name.." id="cl">
+                <div class="col s2">
+                    <button type="button" id="jc" class="btn"><i class="material-icons right">group_add</i> Add</button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-field ">
+                <select class="browser-default col s3" id="joinedGroups"></select>
+                <div class="col s2">
+                    <button type="button" id="l" class="btn"><i class="material-icons right">exit_to_app</i> Leave</button>
+                </div>
+            </div>     
+            <div class="input-field">
+                <input class="col s5" placeholder="massage.." id="t">
+                <div class="col s2">
+                    <button type="button" id="s" class="btn"><i class="material-icons right">send</i> Send</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row ">
+            <div class="col s8 offset-s4">
+                <div><i class="material-icons left p">message</i> Massages:</div>
+                <div>
+                    <ul id="msgs"></ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+@section scripts{
+    <script src="~/Scripts/jquery.signalR-2.4.1.js"></script>
+    <script src="~/signalr/Hubs"></script>
+    <script>
+
+        var name;
+        var proxy = $.connection.chatHubs;
+
+        proxy.client.updateGroups = groups => {
+            $("#groupList").empty();
+            $.each(groups, (i, v) => {
+                $("#groupList").append(`<option value='${v}'>${v}</option>`);
+            });
+        }
+        proxy.client.message = (s, m) => {
+            $("#msgs").append(`<li >${s}: ${m}</li>`)
+        }
+        proxy.client.joinedGroup = (g) => {
+            $("#joinedGroups").append(`<option value='${g}'>${g}</option>`)
+        }
+        proxy.client.leftGroup = (g) => {
+            console.log(g);
+            console.log($(`select #joinedGroups option[value='${g}']`));
+            $(`#joinedGroups option[value='${g}']`).remove();
+        }
+        $.connection.hub.start()
+            .done(() => {
+                name = prompt("Your display name?");
+                $("#n").html(name);
+                proxy.server.addMe(name);
+                $("#j").click(() => {
+                    proxy.server.joinToGroup($("#groupList").val())
+                });
+                $("#jc").click(() => {
+                    proxy.server.createGroup($("#cl").val())
+                });
+                $("#l").click(() => {
+                    proxy.server.leaveFromGroup($("#joinedGroups").val())
+                });
+                $("#s").click(() => {
+                    proxy.server.messageToGroup($("#joinedGroups").val(), $("#t").val());
+                });
+            })
+            .fail(err => {
+                console.log(err);
+            });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('select').formSelect();
+        });
+    </script>
+}

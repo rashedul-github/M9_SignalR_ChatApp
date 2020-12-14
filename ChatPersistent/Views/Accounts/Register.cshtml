@@ -1,0 +1,66 @@
+﻿@model ChatPersistent.ViewModels.RegisterVM
+@{
+    ViewBag.Title = "Register";
+}
+
+@section styles{
+    <style>
+        .cntr {
+            width: 60%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
+}
+
+<div class="row">
+    <div class="col s12 m12">
+        <div class="card cntr z-depth-3">
+            <div class="card-content">
+                <span class="card-title">Register Here</span>
+                <hr />
+                @using (Html.BeginForm())
+                {
+                    <div class="row">
+                        <div class="input-field col s12">
+                            @Html.TextBoxFor(x => x.Username, new { })
+                            @Html.LabelFor(x => x.Username, new { })
+                            @Html.ValidationMessageFor(x => x.Username, "", new { @class = "helper-text", style = "color:red;" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            @Html.PasswordFor(x => x.Password, new { })
+                            @Html.LabelFor(x => x.Password, new { })
+                            @Html.ValidationMessageFor(x => x.Password, "", new { @class = "helper-text", style = "color:red;" })
+                        </div>
+                    </div>
+                    <div class=" row">
+                        <div class="input-field col s12">
+                            @Html.PasswordFor(x => x.ConfirmPassword, new { })
+                            @Html.LabelFor(x => x.ConfirmPassword, new { })
+                            @Html.ValidationMessageFor(x => x.ConfirmPassword, "", new { @class = "helper-text", style = "color:red;" })
+                        </div>
+                    </div>
+                    <div class=" row">
+                        <div class="">
+                            <button type="submit" class="btn"> <i class="material-icons left">queue</i>Register</button>
+                        </div>
+                    </div>
+
+                }
+            </div>
+            <div class="card-action">
+                @Html.ActionLink("Back to login", "Login", "Accounts", new { }, new { @class = "" })
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section scripts{
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+}
+
